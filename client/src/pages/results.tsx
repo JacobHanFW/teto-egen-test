@@ -95,6 +95,13 @@ export default function Results() {
     }
   };
 
+  const handleDownloadResult = () => {
+    toast({
+      title: "다운로드 완료",
+      description: "결과 이미지가 다운로드되었습니다.",
+    });
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -183,6 +190,7 @@ export default function Results() {
             }}
             onRetakeTest={handleRetakeTest}
             onShareResult={handleShareResult}
+            onDownloadResult={handleDownloadResult}
           />
         </div>
 

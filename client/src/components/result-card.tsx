@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { RotateCcw, Share } from "lucide-react";
+import { RotateCcw, Share, Download } from "lucide-react";
 import { CheckCircle } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
+import html2canvas from "html2canvas";
+import { useRef } from "react";
 
 interface PersonalityTypeResult {
   code: string;
@@ -17,13 +19,39 @@ interface ResultCardProps {
   personalityType: PersonalityTypeResult;
   onRetakeTest: () => void;
   onShareResult: () => void;
+  onDownloadResult: () => void;
 }
 
-export function ResultCard({ personalityType, onRetakeTest, onShareResult }: ResultCardProps) {
+export function ResultCard({ personalityType, onRetakeTest, onShareResult, onDownloadResult }: ResultCardProps) {
   const { t } = useLanguage();
+  const resultCardRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = async () => {
+    if (!resultCardRef.current) return;
+    
+    try {
+      const canvas = await html2canvas(resultCardRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        height: resultCardRef.current.scrollHeight,
+        width: resultCardRef.current.scrollWidth
+      });
+      
+      const link = document.createElement('a');
+      link.download = `${personalityType.name}_결과.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+      
+      onDownloadResult();
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 p-8 mb-8">
+    <div ref={resultCardRef} className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 p-8 mb-8">
       <div className="text-center mb-8">
         <div className="w-32 h-32 bg-gradient-to-br from-primary to-secondary rounded-full mx-auto mb-6 flex items-center justify-center">
           <span className="text-white text-4xl font-bold">{personalityType.icon}</span>
@@ -95,6 +123,15 @@ export function ResultCard({ personalityType, onRetakeTest, onShareResult }: Res
         >
           <RotateCcw className="mr-2 h-4 w-4" />
           {t.retakeTest}
+        </Button>
+        
+        <Button 
+          onClick={handleDownload}
+          variant="outline" 
+          className="px-8 py-3 font-semibold hover:bg-blue-50 dark:hover:bg-blue-900 hover:text-blue-600 dark:hover:text-blue-400 border-blue-200 dark:border-blue-700"
+        >
+          <Download className="mr-2 h-4 w-4" />
+          테스트 결과 다운로드
         </Button>
         
         <Button 
