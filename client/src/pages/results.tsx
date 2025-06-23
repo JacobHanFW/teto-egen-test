@@ -1,17 +1,21 @@
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
-import { personalityTypes } from "@/lib/test-data";
 import { TestStorage } from "@/lib/storage";
 import { ResultCard } from "@/components/result-card";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
+import { AdSense } from "@/components/adsense";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { I18n } from "@/lib/i18n";
 import type { TestSession } from "@shared/schema";
 
 export default function Results() {
   const { sessionId } = useParams<{ sessionId?: string }>();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const t = I18n.t();
 
   // Try to get results from API first, then fallback to localStorage
   const { data: session, isLoading, error } = useQuery<TestSession | null>({
@@ -55,14 +59,14 @@ export default function Results() {
   const handleShareResult = () => {
     if (!session) return;
     
-    const personalityType = personalityTypes[session.resultType];
+    const personalityType = t.personalityTypes[session.resultType as keyof typeof t.personalityTypes];
     if (!personalityType) return;
 
-    const shareText = `나의 테토-에겐 성격 유형은 "${personalityType.name} - ${personalityType.subtitle}"입니다! 당신도 테스트해보세요: ${window.location.origin}`;
+    const shareText = `${t.title} - "${personalityType.name} - ${personalityType.subtitle}" ${window.location.origin}`;
     
     if (navigator.share) {
       navigator.share({
-        title: '테토-에겐 성격 유형 검사 결과',
+        title: t.title,
         text: shareText,
         url: window.location.origin
       }).catch(() => {
@@ -78,13 +82,13 @@ export default function Results() {
     try {
       await navigator.clipboard.writeText(text);
       toast({
-        title: "공유 완료",
-        description: "결과가 클립보드에 복사되었습니다!",
+        title: t.shareComplete,
+        description: t.shareCompleteDesc,
       });
     } catch (err) {
       toast({
-        title: "공유 실패",
-        description: "결과 공유에 실패했습니다.",
+        title: t.shareFailed,
+        description: t.shareFailedDesc,
         variant: "destructive"
       });
     }
@@ -96,28 +100,28 @@ export default function Results() {
         <Card className="w-full max-w-md mx-4">
           <CardContent className="pt-6 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-slate-600">결과를 불러오는 중...</p>
+            <p className="text-slate-600 dark:text-slate-300">{t.loadingResults}</p>
           </CardContent>
         </Card>
       </div>
     );
   }
 
-  if (error || !session || !personalityTypes[session.resultType]) {
+  if (error || !session || !t.personalityTypes[session.resultType as keyof typeof t.personalityTypes]) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="w-full max-w-md mx-4">
           <CardContent className="pt-6 text-center">
             <div className="text-red-500 text-4xl mb-4">⚠️</div>
-            <h2 className="text-xl font-semibold text-slate-800 mb-2">결과를 찾을 수 없습니다</h2>
-            <p className="text-slate-600 mb-4">
-              테스트 결과를 불러올 수 없습니다. 다시 테스트를 진행해주세요.
+            <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">{t.resultsNotFound}</h2>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
+              {t.resultsNotFoundDesc}
             </p>
             <button 
               onClick={handleRetakeTest}
               className="gradient-button px-6 py-2 rounded-lg"
             >
-              테스트 다시하기
+              {t.retakeTestButton}
             </button>
           </CardContent>
         </Card>
@@ -125,23 +129,46 @@ export default function Results() {
     );
   }
 
-  const personalityType = personalityTypes[session.resultType];
+  const personalityType = t.personalityTypes[session.resultType as keyof typeof t.personalityTypes];
 
   return (
     <div className="min-h-screen p-4">
+      {/* Header with controls */}
+      <div className="fixed top-4 right-4 flex gap-3 z-10">
+        <LanguageToggle />
+        <ThemeToggle />
+      </div>
+
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-accent to-emerald-400 rounded-full mb-6">
             <Star className="text-white text-3xl" />
           </div>
-          <h1 className="text-4xl font-bold text-slate-800 mb-4">검사 완료!</h1>
-          <p className="text-xl text-slate-600">당신의 테토-에겐 성격 유형 결과입니다</p>
+          <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-4">{t.testComplete}</h1>
+          <p className="text-xl text-slate-600 dark:text-slate-300">{t.resultSubtitle}</p>
         </div>
 
         <ResultCard
-          personalityType={personalityType}
+          personalityType={{
+            code: personalityType.name,
+            name: personalityType.name,
+            subtitle: personalityType.subtitle,
+            icon: session.resultType,
+            traits: personalityType.traits,
+            description: personalityType.description,
+            analysis: personalityType.analysis.map((item, index) => ({
+              label: item.label,
+              value: [90, 85, 88, 95, 88, 92][index] || 85 // Default values for display
+            }))
+          }}
           onRetakeTest={handleRetakeTest}
           onShareResult={handleShareResult}
+        />
+
+        {/* AdSense - Bottom Banner */}
+        <AdSense 
+          adSlot="0987654321"
+          className="mt-8"
         />
       </div>
     </div>

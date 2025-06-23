@@ -54,17 +54,17 @@
   }
 
   body {
-    @apply font-sans antialiased bg-gradient-to-br from-slate-50 to-blue-50 text-foreground min-h-screen;
+    @apply font-sans antialiased bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 text-foreground min-h-screen;
   }
 }
 
 @layer components {
   .gradient-card {
-    @apply bg-white rounded-3xl shadow-xl border border-slate-200;
+    @apply bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700;
   }
   
   .info-card {
-    @apply bg-slate-50 rounded-xl p-4 border border-slate-100;
+    @apply bg-slate-50 dark:bg-slate-700 rounded-xl p-4 border border-slate-100 dark:border-slate-600;
   }
   
   .gradient-button {
@@ -72,18 +72,22 @@
   }
   
   .option-button {
-    @apply w-full p-4 text-left rounded-xl border-2 border-slate-200 hover:border-primary hover:bg-blue-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+    @apply w-full p-4 text-left rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-primary hover:bg-blue-50 dark:hover:bg-slate-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
   }
   
   .option-button-selected {
-    @apply border-primary bg-blue-50;
+    @apply border-primary bg-blue-50 dark:bg-slate-700;
   }
   
   .progress-bar {
-    @apply w-full bg-slate-200 rounded-full h-3;
+    @apply w-full bg-slate-200 dark:bg-slate-600 rounded-full h-3;
   }
   
   .progress-fill {
     @apply bg-gradient-to-r from-primary to-secondary h-3 rounded-full transition-all duration-500;
+  }
+  
+  .adsense-container {
+    @apply my-8 p-4 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700;
   }
 }

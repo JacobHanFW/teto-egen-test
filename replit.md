@@ -113,6 +113,32 @@ The application follows a monorepo structure with clear separation between clien
 
 ## Changelog
 - June 23, 2025. Initial setup
+- June 23, 2025. Added English internationalization, dark mode support, and Google AdSense integration
+
+## Recent Updates (June 23, 2025)
+
+### Multi-language Support
+- Implemented complete Korean/English internationalization system
+- Added language toggle component with persistent storage
+- All UI text, questions, and personality type descriptions translated
+
+### Dark Mode Implementation  
+- Added theme provider with light/dark mode support
+- Theme toggle component with animated icons
+- Updated all CSS classes for dark mode compatibility
+- Persistent theme storage in localStorage
+
+### Google AdSense Integration
+- AdSense component with configurable ad slots
+- Placement on home page (top banner) and results page (bottom banner)
+- Styled ad containers with theme-aware design
+- Auto-loading AdSense script
+
+### UI/UX Improvements
+- Fixed header controls positioning on all pages
+- Enhanced dark mode styling for better contrast
+- Improved responsive design for mobile devices
+- Smooth theme and language transitions
 
 ## User Preferences
 

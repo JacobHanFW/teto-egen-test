@@ -4,8 +4,11 @@ import { questions } from "@/lib/test-data";
 import { TestStorage } from "@/lib/storage";
 import { ProgressBar } from "@/components/progress-bar";
 import { QuestionCard } from "@/components/question-card";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
 import { apiRequest } from "@/lib/queryClient";
 import { nanoid } from "nanoid";
+import { I18n } from "@/lib/i18n";
 import type { TestScores } from "@shared/schema";
 
 export default function Test() {
@@ -13,6 +16,7 @@ export default function Test() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const t = I18n.t();
 
   // Load progress on component mount
   useEffect(() => {
@@ -112,13 +116,19 @@ export default function Test() {
     }
   };
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestion = t.questions[currentQuestionIndex];
   const selectedAnswer = answers[currentQuestionIndex];
   const canGoNext = selectedAnswer !== undefined || isSubmitting;
   const canGoPrevious = currentQuestionIndex > 0 && !isSubmitting;
 
   return (
     <div className="min-h-screen p-4">
+      {/* Header with controls */}
+      <div className="fixed top-4 right-4 flex gap-3 z-10">
+        <LanguageToggle />
+        <ThemeToggle />
+      </div>
+
       <div className="max-w-3xl mx-auto">
         <div className="gradient-card p-6 mb-6">
           <ProgressBar 
@@ -128,7 +138,8 @@ export default function Test() {
         </div>
 
         <QuestionCard
-          question={currentQuestion}
+          questionText={currentQuestion.question}
+          options={currentQuestion.options}
           selectedAnswer={selectedAnswer}
           onAnswerSelect={handleAnswerSelect}
           onNext={handleNext}
