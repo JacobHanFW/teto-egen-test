@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { I18n } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 
 interface QuestionCardProps {
   questionText: string;
@@ -23,7 +23,7 @@ export function QuestionCard({
   canGoPrevious,
   canGoNext
 }: QuestionCardProps) {
-  const t = I18n.t();
+  const { t } = useLanguage();
 
   return (
     <div className="gradient-card p-8">

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { RotateCcw, Share } from "lucide-react";
 import { CheckCircle } from "lucide-react";
-import { I18n } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 
 interface PersonalityTypeResult {
   code: string;
@@ -20,10 +20,10 @@ interface ResultCardProps {
 }
 
 export function ResultCard({ personalityType, onRetakeTest, onShareResult }: ResultCardProps) {
-  const t = I18n.t();
+  const { t } = useLanguage();
 
   return (
-    <div className="gradient-card p-8 mb-8">
+    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 p-8 mb-8">
       <div className="text-center mb-8">
         <div className="w-32 h-32 bg-gradient-to-br from-primary to-secondary rounded-full mx-auto mb-6 flex items-center justify-center">
           <span className="text-white text-4xl font-bold">{personalityType.icon}</span>
@@ -99,7 +99,7 @@ export function ResultCard({ personalityType, onRetakeTest, onShareResult }: Res
         
         <Button 
           onClick={onShareResult}
-          className="gradient-button px-8 py-3"
+          className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
         >
           <Share className="mr-2 h-4 w-4" />
           {t.shareResult}

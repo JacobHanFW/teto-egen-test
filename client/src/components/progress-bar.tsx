@@ -1,4 +1,4 @@
-import { I18n } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 
 interface ProgressBarProps {
   current: number;
@@ -7,7 +7,7 @@ interface ProgressBarProps {
 
 export function ProgressBar({ current, total }: ProgressBarProps) {
   const progress = (current / total) * 100;
-  const t = I18n.t();
+  const { t } = useLanguage();
 
   return (
     <div className="w-full">

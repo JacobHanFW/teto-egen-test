@@ -4,11 +4,11 @@ import { Brain, Clock, HelpCircle, TrendingUp } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
 import { AdSense } from "@/components/adsense";
-import { I18n } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 
 export default function Home() {
   const [, setLocation] = useLocation();
-  const t = I18n.t();
+  const { t } = useLanguage();
 
   const startTest = () => {
     setLocation("/test");
@@ -16,12 +16,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      {/* Header with controls */}
-      <div className="fixed top-4 right-4 flex gap-3 z-10">
-        <LanguageToggle />
-        <ThemeToggle />
-      </div>
-
       <div className="max-w-2xl mx-auto text-center">
         {/* AdSense - Top Banner */}
         <AdSense 
@@ -29,8 +23,14 @@ export default function Home() {
           className="mb-6"
         />
 
-        <div className="gradient-card p-8 mb-6">
-          <div className="mb-8">
+        <div className="gradient-card p-8 mb-6 relative">
+          {/* Controls inside the card - top right */}
+          <div className="absolute top-4 right-4 flex gap-3 z-10">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
+
+          <div className="mb-8 pt-8">
             <div className="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full mx-auto mb-6 flex items-center justify-center">
               <Brain className="text-white text-2xl" />
             </div>

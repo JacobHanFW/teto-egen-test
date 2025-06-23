@@ -8,7 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
 import { apiRequest } from "@/lib/queryClient";
 import { nanoid } from "nanoid";
-import { I18n } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 import type { TestScores } from "@shared/schema";
 
 export default function Test() {
@@ -16,7 +16,7 @@ export default function Test() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const t = I18n.t();
+  const { t } = useLanguage();
 
   // Load progress on component mount
   useEffect(() => {
@@ -123,14 +123,14 @@ export default function Test() {
 
   return (
     <div className="min-h-screen p-4">
-      {/* Header with controls */}
-      <div className="fixed top-4 right-4 flex gap-3 z-10">
-        <LanguageToggle />
-        <ThemeToggle />
-      </div>
-
       <div className="max-w-3xl mx-auto">
-        <div className="gradient-card p-6 mb-6">
+        <div className="gradient-card p-6 mb-6 relative">
+          {/* Controls inside the card - top right */}
+          <div className="absolute top-4 right-4 flex gap-3 z-10">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
+
           <ProgressBar 
             current={currentQuestionIndex + 1} 
             total={questions.length}

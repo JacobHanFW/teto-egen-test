@@ -6,16 +6,17 @@ import { ResultCard } from "@/components/result-card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
 import { AdSense } from "@/components/adsense";
+import { MetaTags } from "@/components/meta-tags";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { I18n } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 import type { TestSession } from "@shared/schema";
 
 export default function Results() {
   const { sessionId } = useParams<{ sessionId?: string }>();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const t = I18n.t();
+  const { t } = useLanguage();
 
   // Try to get results from API first, then fallback to localStorage
   const { data: session, isLoading, error } = useQuery<TestSession | null>({
@@ -130,45 +131,65 @@ export default function Results() {
   }
 
   const personalityType = t.personalityTypes[session.resultType as keyof typeof t.personalityTypes];
+  
+  // Generate OG image URL and meta tags
+  const ogImageUrl = sessionId ? `${window.location.origin}/api/og-image/${sessionId}` : undefined;
+  const pageTitle = `${personalityType.name} - ${t.title}`;
+  const pageDescription = `${personalityType.subtitle} - ${personalityType.description.slice(0, 150)}...`;
 
   return (
     <div className="min-h-screen p-4">
-      {/* Header with controls */}
-      <div className="fixed top-4 right-4 flex gap-3 z-10">
-        <LanguageToggle />
-        <ThemeToggle />
-      </div>
-
+      <MetaTags
+        title={pageTitle}
+        description={pageDescription}
+        ogImage={ogImageUrl}
+        url={window.location.href}
+      />
+      
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-accent to-emerald-400 rounded-full mb-6">
-            <Star className="text-white text-3xl" />
-          </div>
-          <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-4">{t.testComplete}</h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300">{t.resultSubtitle}</p>
-        </div>
-
-        <ResultCard
-          personalityType={{
-            code: personalityType.name,
-            name: personalityType.name,
-            subtitle: personalityType.subtitle,
-            icon: session.resultType,
-            traits: personalityType.traits,
-            description: personalityType.description,
-            analysis: personalityType.analysis.map((item, index) => ({
-              label: item.label,
-              value: [90, 85, 88, 95, 88, 92][index] || 85 // Default values for display
-            }))
-          }}
-          onRetakeTest={handleRetakeTest}
-          onShareResult={handleShareResult}
+        {/* AdSense - Top Banner */}
+        <AdSense 
+          adSlot="0987654321"
+          className="mb-6"
         />
+
+        <div className="gradient-card p-8 mb-6 relative">
+          {/* Controls inside the card - top right */}
+          <div className="absolute top-4 right-4 flex gap-3 z-10">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
+
+          <div className="text-center mb-8 pt-8">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-accent to-emerald-400 rounded-full mb-6">
+              <Star className="text-white text-3xl" />
+            </div>
+            <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-4">{t.testComplete}</h1>
+            <p className="text-xl text-slate-600 dark:text-slate-300">{t.resultSubtitle}</p>
+          </div>
+
+          <ResultCard
+            personalityType={{
+              code: personalityType.name,
+              name: personalityType.name,
+              subtitle: personalityType.subtitle,
+              icon: session.resultType,
+              traits: personalityType.traits,
+              description: personalityType.description,
+              analysis: personalityType.analysis.map((item, index) => ({
+                label: item.label,
+                value: [90, 85, 88, 95, 88, 92][index] || 85 // Default values for display
+              }))
+            }}
+            onRetakeTest={handleRetakeTest}
+            onShareResult={handleShareResult}
+          />
+        </div>
 
         {/* AdSense - Bottom Banner */}
         <AdSense 
-          adSlot="0987654321"
-          className="mt-8"
+          adSlot="1234567890"
+          className="mt-6"
         />
       </div>
     </div>
