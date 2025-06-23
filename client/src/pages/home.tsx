@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Brain, Clock, HelpCircle, TrendingUp } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
-
+import { trackEvent } from "@/lib/analytics";
 import { useLanguage } from "@/hooks/use-language";
 
 export default function Home() {
@@ -11,6 +11,7 @@ export default function Home() {
   const { t } = useLanguage();
 
   const startTest = () => {
+    trackEvent('test_start', 'engagement', 'start_button');
     setLocation("/test");
   };
 

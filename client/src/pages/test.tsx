@@ -9,6 +9,7 @@ import { LanguageToggle } from "@/components/language-toggle";
 import { apiRequest } from "@/lib/queryClient";
 import { nanoid } from "nanoid";
 import { useLanguage } from "@/hooks/use-language";
+import { trackEvent } from "@/lib/analytics";
 import type { TestScores } from "@shared/schema";
 
 export default function Test() {
@@ -87,6 +88,9 @@ export default function Test() {
     try {
       const resultType = calculateResult(answers);
       const sessionId = nanoid();
+      
+      // Track test completion
+      trackEvent('test_complete', 'engagement', resultType);
       
       await apiRequest('POST', '/api/test-results', {
         sessionId,

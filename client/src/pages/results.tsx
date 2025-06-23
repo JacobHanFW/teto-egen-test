@@ -5,11 +5,11 @@ import { TestStorage } from "@/lib/storage";
 import { ResultCard } from "@/components/result-card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
-
 import { MetaTags } from "@/components/meta-tags";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
+import { trackEvent } from "@/lib/analytics";
 import type { TestSession } from "@shared/schema";
 
 export default function Results() {
@@ -52,6 +52,7 @@ export default function Results() {
   });
 
   const handleRetakeTest = () => {
+    trackEvent('test_retake', 'engagement', 'retake_button');
     TestStorage.clearProgress();
     TestStorage.clearResult();
     setLocation("/");
@@ -59,6 +60,8 @@ export default function Results() {
 
   const handleShareResult = () => {
     if (!session) return;
+    
+    trackEvent('result_share', 'engagement', 'share_button');
     
     const personalityType = t.personalityTypes[session.resultType as keyof typeof t.personalityTypes];
     if (!personalityType) return;
@@ -96,6 +99,7 @@ export default function Results() {
   };
 
   const handleDownloadResult = () => {
+    trackEvent('result_download', 'engagement', 'download_button');
     toast({
       title: "다운로드 완료",
       description: "결과 이미지가 다운로드되었습니다.",
