@@ -122,15 +122,15 @@ export default function Test() {
   const canGoPrevious = currentQuestionIndex > 0 && !isSubmitting;
 
   return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-3xl mx-auto">
-        <div className="gradient-card p-6 mb-6 relative">
-          {/* Controls inside the card - top right */}
-          <div className="absolute top-4 right-4 flex gap-3 z-10">
-            <LanguageToggle />
-            <ThemeToggle />
-          </div>
+    <div className="min-h-screen p-4 relative">
+      {/* Controls outside the frame - top right */}
+      <div className="absolute top-4 right-4 flex gap-3 z-20">
+        <LanguageToggle />
+        <ThemeToggle />
+      </div>
 
+      <div className="max-w-3xl mx-auto">
+        <div className="gradient-card p-6 mb-6">
           <ProgressBar 
             current={currentQuestionIndex + 1} 
             total={questions.length}

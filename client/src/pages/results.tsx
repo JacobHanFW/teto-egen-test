@@ -5,7 +5,7 @@ import { TestStorage } from "@/lib/storage";
 import { ResultCard } from "@/components/result-card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
-import { AdSense } from "@/components/adsense";
+
 import { MetaTags } from "@/components/meta-tags";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
@@ -154,12 +154,6 @@ export default function Results() {
       />
       
       <div className="max-w-4xl mx-auto">
-        {/* AdSense - Top Banner */}
-        <AdSense 
-          adSlot="0987654321"
-          className="mb-6"
-        />
-
         <div className="gradient-card p-8 mb-6 relative">
           {/* Controls inside the card - top right */}
           <div className="absolute top-4 right-4 flex gap-3 z-10">
@@ -194,11 +188,6 @@ export default function Results() {
           />
         </div>
 
-        {/* AdSense - Bottom Banner */}
-        <AdSense 
-          adSlot="1234567890"
-          className="mt-6"
-        />
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Brain, Clock, HelpCircle, TrendingUp } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
-import { AdSense } from "@/components/adsense";
+
 import { useLanguage } from "@/hooks/use-language";
 
 export default function Home() {
@@ -17,12 +17,6 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
       <div className="max-w-2xl mx-auto text-center">
-        {/* AdSense - Top Banner */}
-        <AdSense 
-          adSlot="1234567890" 
-          className="mb-6"
-        />
-
         <div className="gradient-card p-8 mb-6 relative">
           {/* Controls inside the card - top right */}
           <div className="absolute top-4 right-4 flex gap-3 z-10">

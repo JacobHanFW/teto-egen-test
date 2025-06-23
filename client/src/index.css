@@ -68,7 +68,7 @@
   }
   
   .gradient-button {
-    @apply bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1;
+    @apply bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300;
   }
   
   .option-button {
