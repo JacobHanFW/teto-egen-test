@@ -39,6 +39,13 @@ export interface PersonalityType {
   traits: string[];
   description: string;
   analysis: AnalysisItem[];
+  attractedTo?: AttractionInfo;
+}
+
+export interface AttractionInfo {
+  type: string;
+  name: string;
+  description: string;
 }
 
 export interface AnalysisItem {

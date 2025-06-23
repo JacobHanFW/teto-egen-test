@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { RotateCcw, Share, Download } from "lucide-react";
+import { RotateCcw, Share, Download, Heart } from "lucide-react";
 import { CheckCircle } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import html2canvas from "html2canvas";
@@ -108,12 +108,30 @@ export function ResultCard({ personalityType, onRetakeTest, onShareResult, onDow
         </div>
       </div>
 
-      <div className="bg-slate-50 dark:bg-slate-700 rounded-2xl p-6 mb-8 border border-slate-100 dark:border-slate-600">
+      <div className="bg-slate-50 dark:bg-slate-700 rounded-2xl p-6 mb-6 border border-slate-100 dark:border-slate-600">
         <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">{t.detailedDescription}</h3>
         <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
           {personalityType.description}
         </p>
       </div>
+
+      {/* 연예 먹이사슬 매력 정보 */}
+      {personalityType.attractedTo && (
+        <div className="bg-gradient-to-r from-pink-50 to-red-50 dark:from-pink-900/20 dark:to-red-900/20 rounded-2xl p-6 mb-8 border border-pink-200 dark:border-pink-700">
+          <div className="flex items-center gap-3 mb-4">
+            <Heart className="text-pink-500 w-6 h-6" />
+            <h3 className="text-xl font-semibold text-pink-800 dark:text-pink-200">연예 먹이사슬 매력 분석</h3>
+          </div>
+          <div className="space-y-3">
+            <p className="text-pink-700 dark:text-pink-300">
+              <strong>끌리는 타입:</strong> {personalityType.attractedTo.name}
+            </p>
+            <p className="text-pink-600 dark:text-pink-300 leading-relaxed">
+              {personalityType.attractedTo.description}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Button 

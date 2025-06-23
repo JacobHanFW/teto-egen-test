@@ -221,7 +221,12 @@ export const personalityTypes: Record<string, PersonalityType> = {
       { label: '창의성', value: 90 },
       { label: '독립성', value: 85 },
       { label: '논리성', value: 88 }
-    ]
+    ],
+    attractedTo: {
+      type: 'EG',
+      name: '에겐 타입',
+      description: '테토는 감정적이고 따뜻한 에겐의 공감능력과 사교성에 매력을 느낍니다. 논리적인 테토에게 에겐의 직관적이고 감성적인 면이 보완적 매력으로 작용합니다.'
+    }
   },
   'EG': {
     code: 'EG',
@@ -240,7 +245,12 @@ export const personalityTypes: Record<string, PersonalityType> = {
       { label: '공감능력', value: 95 },
       { label: '사교성', value: 88 },
       { label: '조화성', value: 92 }
-    ]
+    ],
+    attractedTo: {
+      type: 'TE',
+      name: '테토 타입',
+      description: '에겐은 독창적이고 창의적인 테토의 논리적 사고와 독립적인 성향에 매력을 느낍니다. 감정적인 에겐에게 테토의 체계적이고 분석적인 면이 신선하고 매력적으로 다가옵니다.'
+    }
   },
   'TE-EG': {
     code: 'TE-EG',
@@ -259,6 +269,11 @@ export const personalityTypes: Record<string, PersonalityType> = {
       { label: '균형성', value: 90 },
       { label: '적응력', value: 87 },
       { label: '다재다능', value: 89 }
-    ]
+    ],
+    attractedTo: {
+      type: 'TE-EG',
+      name: '테토-에겐 혼합형',
+      description: '혼합형은 자신과 비슷한 균형잡힌 성향을 가진 사람에게 매력을 느낍니다. 서로의 다면성을 이해하고 상황에 따라 유연하게 대응할 수 있는 파트너를 선호합니다.'
+    }
   }
 };
